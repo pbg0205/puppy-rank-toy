@@ -27,10 +27,6 @@ repositories {
     mavenCentral()
 }
 
-ext {
-    set('snippetsDir', file("build/generated-snippets"))
-}
-
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-cache'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -45,6 +41,11 @@ dependencies {
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
+    asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+}
+
+ext {
+    snippetsDir = file("$buildDir/generated-snippets")
 }
 
 test {
@@ -53,23 +54,34 @@ test {
 }
 
 asciidoctor {
-    configurations 'asciidoctorExtensions'
-    baseDirFollowsSourceFile() // include 연산 동작시, base directory 를 SourceFile 을 따르도록 하는 명령어
     inputs.dir snippetsDir
+    configurations 'asciidoctorExtensions'
+    baseDirFollowsSourceFile()
     dependsOn test
 }
 
+bootJar {
+    dependsOn asciidoctor
+    from ("${asciidoctor.outputDir}") {
+        into 'static/docs'
+    }
+}
+
 def querydslDir = "$buildDir/generated/querydsl"
+
 querydsl {
     jpa = true
     querydslSourcesDir = querydslDir
 }
+
 sourceSets {
     main.java.srcDir querydslDir
 }
+
 configurations {
     querydsl.extendsFrom compileClasspath
 }
+
 compileQuerydsl {
     options.annotationProcessorPath = configurations.querydsl
 }
