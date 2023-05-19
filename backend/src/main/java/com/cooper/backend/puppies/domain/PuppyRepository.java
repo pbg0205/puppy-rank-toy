@@ -1,7 +1,16 @@
 package com.cooper.backend.puppies.domain;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.cooper.backend.puppies.dto.PuppyDetailResponseDTO;
+import com.cooper.backend.puppies.dto.PuppyListResponseDTO;
+import org.springframework.data.domain.Pageable;
 
-public interface PuppyRepository extends JpaRepository<Puppy, Long>, PuppyRepositoryCustom {
+import java.util.List;
+import java.util.Optional;
+
+public interface PuppyRepository {
+
+    List<PuppyListResponseDTO> findPuppyListDesc(final Pageable pageable);
+
+    Optional<PuppyDetailResponseDTO> findPuppyDetailByPuppyId(final Long puppyId);
 
 }

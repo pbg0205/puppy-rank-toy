@@ -2,8 +2,8 @@ package com.cooper.backend.puppies.domain;
 
 
 import com.cooper.backend.common.config.QueryDslConfig;
+import com.cooper.backend.puppies.dto.PuppyDetailResponseDTO;
 import com.cooper.backend.puppies.dto.PuppyListResponseDTO;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +17,10 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @Import(QueryDslConfig.class)
 @DataJpaTest(
@@ -27,7 +29,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         )
 )
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-//@SpringBootTest
+@DisplayName("강아지 쿼리 테스트")
 class PuppyRepositoryTest {
 
     @Autowired
@@ -40,7 +42,7 @@ class PuppyRepositoryTest {
     private String imageStorageServerName;
 
     @Test
-    @DisplayName("강아지 목록을 조회한다")
+    @DisplayName("목록 조회")
     void findPuppyListDesc() {
         //given
         Puppy puppy1 = Puppy.create("강아지 이름1", "간단한 설명1", "구체적인 설명1", "puppy01.jpg");
@@ -63,9 +65,27 @@ class PuppyRepositoryTest {
         List<PuppyListResponseDTO> puppies = puppyRepository.findPuppyListDesc(PageRequest.of(0, 6));
 
         //then
-        Assertions.assertAll(
+        assertAll(
                 () -> assertThat(puppies).hasSize(6),
                 () -> assertThat(puppies.get(0).getPuppyPictureUrl()).startsWith(imageStorageServerName)
+        );
+    }
+
+    @Test
+    @DisplayName("세부 항목 조회")
+    void findPuppyDetailByPuppyId() {
+        //given
+        Puppy puppy1 = Puppy.create("강아지 이름1", "간단한 설명1", "구체적인 설명1", "puppy01.jpg");
+
+        testEntityManager.persist(puppy1);
+
+        //when
+        Optional<PuppyDetailResponseDTO> puppyDetailResponseDTO = puppyRepository.findPuppyDetailByPuppyId(1L);
+
+        //then
+        assertAll(
+                () -> assertThat(puppyDetailResponseDTO).isNotEmpty(),
+                () -> assertThat(puppyDetailResponseDTO.get().getPuppyId()).isEqualTo(1L)
         );
     }
 

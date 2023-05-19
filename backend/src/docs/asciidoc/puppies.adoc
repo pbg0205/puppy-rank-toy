@@ -24,3 +24,22 @@ include::{snippets}/puppies/getList/request-parameters.adoc[]
 === Response
 
 include::{snippets}/puppies/getList/http-response.adoc[]
+
+
+== 강아지 세부 조회
+
+### CURL
+
+include::{snippets}/puppies/getPuppyDetail/curl-request.adoc[]
+
+=== Request
+
+include::{snippets}/puppies/getPuppyDetail/http-request.adoc[]
+
+include::{snippets}/puppies/getPuppyDetail/path-parameters.adoc[]
+
+
+
+=== Response
+
+include::{snippets}/puppies/getPuppyDetail/http-response.adoc[]

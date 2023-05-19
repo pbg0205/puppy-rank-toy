@@ -1,6 +1,8 @@
 package com.cooper.backend.puppies.presentation;
 
+import com.cooper.backend.puppies.business.PuppyDetailService;
 import com.cooper.backend.puppies.business.PuppyListService;
+import com.cooper.backend.puppies.dto.PuppyDetailResponseDTO;
 import com.cooper.backend.puppies.dto.PuppyListResponseDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,8 +12,6 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor;
-import org.springframework.restdocs.snippet.Snippet;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -23,6 +23,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -35,6 +36,9 @@ class PuppyControllerTest {
 
     @MockBean
     private PuppyListService puppyListService;
+
+    @MockBean
+    private PuppyDetailService puppyDetailServiceService;
 
     @Value("${image.storage.server.name}")
     private String imageStorageServerName;
@@ -59,15 +63,34 @@ class PuppyControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(document("puppies/getList",
-                        preprocessResponse(prettyPrint()),
-                        findSpecificSampleRequestParams()));
+                                preprocessResponse(prettyPrint()),
+                                requestParameters(
+                                        parameterWithName("page").optional().description("강아지 목록 오프셋"),
+                                        parameterWithName("size").optional().description("강아지 목록 사이즈"))
+                        )
+                );
     }
 
-    private Snippet findSpecificSampleRequestParams() {
-        return requestParameters(
-                parameterWithName("page").optional().description("강아지 목록 오프셋"),
-                parameterWithName("size").optional().description("강아지 목록 사이즈")
-        );
+    @Test
+    @DisplayName("강아지의 세부 정보를 조회한다")
+    void getPuppyDetail() throws Exception {
+        //given
+        PuppyDetailResponseDTO puppyDetailResponseDTO = new PuppyDetailResponseDTO(1L, "puppyName1", "puppyPicture1", "simpleDescription1", "detailDescription1", imageStorageServerName);
+
+        given(puppyDetailServiceService.getPuppyDetail(any())).willReturn(puppyDetailResponseDTO);
+
+        //when
+        mockMvc.perform(get("/api/v1/puppies/{puppyId}", 1L)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("puppies/getPuppyDetail",
+                                preprocessResponse(prettyPrint()),
+                                pathParameters(parameterWithName("puppyId").description("강아지 아이디"))
+                        )
+                );
+
+        //then
+
     }
 
 }
