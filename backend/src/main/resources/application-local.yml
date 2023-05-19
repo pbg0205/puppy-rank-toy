@@ -1,5 +1,4 @@
 --- # rdb
-
 spring:
   jpa:
     show-sql: true
@@ -27,3 +26,12 @@ image:
   storage:
     server:
       name: http://localhost:8080
+
+
+--- # cache config
+spring:
+  cache:
+    redis:
+      time-to-live: 5m
+      use-key-prefix: true
+      key-prefix: cooper_puppy_
