@@ -32,7 +32,6 @@ public class PuppyRepositoryImpl implements PuppyRepository {
                         puppy.name,
                         puppyPicture.pictureName,
                         puppy.simpleDescription,
-                        puppy.detailDescription,
                         Expressions.constant(imageStorageServerName)))
                 .from(puppy)
                 .innerJoin(puppyPicture).on(puppy.id.eq(puppyPicture.id))

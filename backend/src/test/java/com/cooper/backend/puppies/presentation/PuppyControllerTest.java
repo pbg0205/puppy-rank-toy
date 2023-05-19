@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -20,8 +21,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.PayloadDocumentation.beneathPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
@@ -48,12 +53,12 @@ class PuppyControllerTest {
     void getPuppyList() throws Exception {
         //given
         List<PuppyListResponseDTO> puppyList = List.of(
-                new PuppyListResponseDTO(1L, "puppyName1", "puppyPicture1", "simpleDescription1", "detailDescription1", imageStorageServerName),
-                new PuppyListResponseDTO(2L, "puppyName2", "puppyPicture2", "simpleDescription2", "detailDescription2", imageStorageServerName),
-                new PuppyListResponseDTO(3L, "puppyName3", "puppyPicture3", "simpleDescription3", "detailDescription3", imageStorageServerName),
-                new PuppyListResponseDTO(4L, "puppyName4", "puppyPicture4", "simpleDescription4", "detailDescription4", imageStorageServerName),
-                new PuppyListResponseDTO(5L, "puppyName5", "puppyPicture5", "simpleDescription5", "detailDescription5", imageStorageServerName),
-                new PuppyListResponseDTO(6L, "puppyName6", "puppyPicture6", "simpleDescription6", "detailDescription6", imageStorageServerName)
+                new PuppyListResponseDTO(1L, "puppyName1", "puppyPicture1", "simpleDescription1", imageStorageServerName),
+                new PuppyListResponseDTO(2L, "puppyName2", "puppyPicture2", "simpleDescription2", imageStorageServerName),
+                new PuppyListResponseDTO(3L, "puppyName3", "puppyPicture3", "simpleDescription3", imageStorageServerName),
+                new PuppyListResponseDTO(4L, "puppyName4", "puppyPicture4", "simpleDescription4", imageStorageServerName),
+                new PuppyListResponseDTO(5L, "puppyName5", "puppyPicture5", "simpleDescription5", imageStorageServerName),
+                new PuppyListResponseDTO(6L, "puppyName6", "puppyPicture6", "simpleDescription6", imageStorageServerName)
         );
 
         given(puppyListService.getPuppyList(any())).willReturn(puppyList);
@@ -63,7 +68,15 @@ class PuppyControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(document("puppies/getList",
+                                preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
+                                responseFields(
+                                        beneathPath("data").withSubsectionId("data"),
+                                        fieldWithPath("puppyId").type(JsonFieldType.NUMBER).description("강아지 아이디"),
+                                        fieldWithPath("puppyName").type(JsonFieldType.STRING).description("강아지 이름"),
+                                        fieldWithPath("puppyPictureUrl").type(JsonFieldType.STRING).description("강아지 사진 URL"),
+                                        fieldWithPath("simpleDescription").type(JsonFieldType.STRING).description("강아지 간단 설명")
+                                ),
                                 requestParameters(
                                         parameterWithName("page").optional().description("강아지 목록 오프셋"),
                                         parameterWithName("size").optional().description("강아지 목록 사이즈"))
@@ -84,7 +97,16 @@ class PuppyControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(document("puppies/getPuppyDetail",
+                                preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
+                                responseFields(
+                                        beneathPath("data").withSubsectionId("data"),
+                                        fieldWithPath("puppyId").type(JsonFieldType.NUMBER).description("강아지 아이디"),
+                                        fieldWithPath("name").type(JsonFieldType.STRING).description("강아지 이름"),
+                                        fieldWithPath("puppyPictureUrl").type(JsonFieldType.STRING).description("강아지 사진 URL"),
+                                        fieldWithPath("simpleDescription").type(JsonFieldType.STRING).description("강아지 간단 설명"),
+                                        fieldWithPath("detailDescription").type(JsonFieldType.STRING).description("강아지 세부 설명")
+                                ),
                                 pathParameters(parameterWithName("puppyId").description("강아지 아이디"))
                         )
                 );

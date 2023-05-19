@@ -6,40 +6,36 @@
 :toclevels: 3
 
 
+== 1. 강아지 목록 조회
 
-== 강아지 목록 조회
-
-### CURL
+=== (1) CURL
 
 include::{snippets}/puppies/getList/curl-request.adoc[]
 
-=== Request
+=== (2) Request
 
 include::{snippets}/puppies/getList/http-request.adoc[]
-
 include::{snippets}/puppies/getList/request-parameters.adoc[]
 
 
-
-=== Response
+=== (3) Response
 
 include::{snippets}/puppies/getList/http-response.adoc[]
+include::{snippets}/puppies/getList/response-fields-data.adoc[]
 
 
-== 강아지 세부 조회
+== 2. 강아지 세부 조회
 
-### CURL
+=== (1) CURL
 
 include::{snippets}/puppies/getPuppyDetail/curl-request.adoc[]
 
-=== Request
+=== (2) Request
 
 include::{snippets}/puppies/getPuppyDetail/http-request.adoc[]
-
 include::{snippets}/puppies/getPuppyDetail/path-parameters.adoc[]
 
-
-
-=== Response
+=== (3) Response
 
 include::{snippets}/puppies/getPuppyDetail/http-response.adoc[]
+include::{snippets}/puppies/getPuppyDetail/response-fields-data.adoc[]

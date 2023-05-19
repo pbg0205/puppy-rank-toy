@@ -12,20 +12,17 @@ public class PuppyListResponseDTO {
     private final String puppyName;
     private final String puppyPictureUrl;
     private final String simpleDescription;
-    private final String detailDescription;
 
     @QueryProjection
     public PuppyListResponseDTO(Long puppyId,
                                 String puppyName,
                                 String puppyPictureName,
                                 String simpleDescription,
-                                String detailDescription,
                                 String imageStorageServerName) {
         this.puppyId = puppyId;
         this.puppyName = puppyName;
         this.puppyPictureUrl = getPuppyPictureUrl(puppyId, puppyPictureName, imageStorageServerName);
         this.simpleDescription = simpleDescription;
-        this.detailDescription = detailDescription;
     }
 
     private String getPuppyPictureUrl(Long puppyId, String puppyPictureName, String imageStorageServerName) {
