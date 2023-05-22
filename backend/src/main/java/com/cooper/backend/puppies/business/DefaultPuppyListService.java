@@ -1,6 +1,6 @@
 package com.cooper.backend.puppies.business;
 
-import com.cooper.backend.puppies.domain.PuppyRepository;
+import com.cooper.backend.puppies.repository.PuppyRepository;
 import com.cooper.backend.puppies.dto.PuppyListResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;

@@ -4,6 +4,7 @@ package com.cooper.backend.puppies.domain;
 import com.cooper.backend.common.config.QueryDslConfig;
 import com.cooper.backend.puppies.dto.PuppyDetailResponseDTO;
 import com.cooper.backend.puppies.dto.PuppyListResponseDTO;
+import com.cooper.backend.puppies.repository.PuppyRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
