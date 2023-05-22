@@ -1,7 +1,8 @@
-package com.cooper.backend.puppies.domain;
+package com.cooper.backend.puppies.repository;
 
 
 import com.cooper.backend.common.config.QueryDslConfig;
+import com.cooper.backend.puppies.domain.Puppy;
 import com.cooper.backend.puppies.dto.PuppyDetailResponseDTO;
 import com.cooper.backend.puppies.dto.PuppyListResponseDTO;
 import com.cooper.backend.puppies.repository.PuppyRepository;
