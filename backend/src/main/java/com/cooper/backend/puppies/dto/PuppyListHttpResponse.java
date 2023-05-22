@@ -4,30 +4,25 @@ import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 
 @Getter
-public class PuppyDetailResponseDTO {
+public class PuppyListHttpResponse {
 
     private static final String SLASH = "/";
 
     private final Long puppyId;
-    private final String name;
+    private final String puppyName;
     private final String puppyPictureUrl;
     private final String simpleDescription;
-    private final String detailDescription;
 
     @QueryProjection
-
-    public PuppyDetailResponseDTO(Long puppyId,
-                                  String name,
-                                  String puppyPictureName,
-                                  String simpleDescription,
-                                  String detailDescription,
-                                  String imageStorageServerName
-                                  ) {
+    public PuppyListHttpResponse(Long puppyId,
+                                 String puppyName,
+                                 String puppyPictureName,
+                                 String simpleDescription,
+                                 String imageStorageServerName) {
         this.puppyId = puppyId;
-        this.name = name;
-        this.simpleDescription = simpleDescription;
-        this.detailDescription = detailDescription;
+        this.puppyName = puppyName;
         this.puppyPictureUrl = getPuppyPictureUrl(puppyId, puppyPictureName, imageStorageServerName);
+        this.simpleDescription = simpleDescription;
     }
 
     private String getPuppyPictureUrl(Long puppyId, String puppyPictureName, String imageStorageServerName) {

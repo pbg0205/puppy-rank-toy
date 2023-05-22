@@ -1,7 +1,7 @@
 package com.cooper.backend.puppies.repository;
 
-import com.cooper.backend.puppies.dto.PuppyDetailResponseDTO;
-import com.cooper.backend.puppies.dto.PuppyListResponseDTO;
+import com.cooper.backend.puppies.dto.PuppyDetailHttpResponse;
+import com.cooper.backend.puppies.dto.PuppyListHttpResponse;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -26,8 +26,8 @@ public class PuppyRepositoryImpl implements PuppyRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<PuppyListResponseDTO> findPuppyListDesc(final Pageable pageable) {
-        return jpaQueryFactory.select(Projections.constructor(PuppyListResponseDTO.class,
+    public List<PuppyListHttpResponse> findPuppyListDesc(final Pageable pageable) {
+        return jpaQueryFactory.select(Projections.constructor(PuppyListHttpResponse.class,
                         puppy.id,
                         puppy.name,
                         puppyPicture.pictureName,
@@ -41,8 +41,8 @@ public class PuppyRepositoryImpl implements PuppyRepository {
     }
 
     @Override
-    public Optional<PuppyDetailResponseDTO> findPuppyDetailByPuppyId(Long puppyId) {
-        PuppyDetailResponseDTO puppyDetailResponseDTO = jpaQueryFactory.select(Projections.constructor(PuppyDetailResponseDTO.class,
+    public Optional<PuppyDetailHttpResponse> findPuppyDetailByPuppyId(Long puppyId) {
+        PuppyDetailHttpResponse puppyDetailHttpResponse = jpaQueryFactory.select(Projections.constructor(PuppyDetailHttpResponse.class,
                         puppy.id,
                         puppy.name,
                         puppyPicture.pictureName,
@@ -54,7 +54,7 @@ public class PuppyRepositoryImpl implements PuppyRepository {
                 .where(puppy.id.eq(puppyId))
                 .fetchFirst();
 
-        return Optional.ofNullable(puppyDetailResponseDTO);
+        return Optional.ofNullable(puppyDetailHttpResponse);
     }
 
 }

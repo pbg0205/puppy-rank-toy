@@ -1,7 +1,7 @@
 package com.cooper.backend.puppies.business;
 
 import com.cooper.backend.puppies.repository.PuppyRepository;
-import com.cooper.backend.puppies.dto.PuppyListResponseDTO;
+import com.cooper.backend.puppies.dto.PuppyListHttpResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class DefaultPuppyListService implements PuppyListService {
     private final PuppyRepository puppyRepository;
 
     @Override
-    public List<PuppyListResponseDTO> getPuppyList(final Pageable pageable) {
+    public List<PuppyListHttpResponse> getPuppyList(final Pageable pageable) {
         return puppyRepository.findPuppyListDesc(pageable);
     }
 

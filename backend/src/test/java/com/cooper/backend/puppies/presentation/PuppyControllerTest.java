@@ -2,8 +2,8 @@ package com.cooper.backend.puppies.presentation;
 
 import com.cooper.backend.puppies.business.PuppyDetailService;
 import com.cooper.backend.puppies.business.PuppyListService;
-import com.cooper.backend.puppies.dto.PuppyDetailResponseDTO;
-import com.cooper.backend.puppies.dto.PuppyListResponseDTO;
+import com.cooper.backend.puppies.dto.PuppyDetailHttpResponse;
+import com.cooper.backend.puppies.dto.PuppyListHttpResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,13 +52,13 @@ class PuppyControllerTest {
     @DisplayName("강아지 목록 조회 API")
     void getPuppyList() throws Exception {
         //given
-        List<PuppyListResponseDTO> puppyList = List.of(
-                new PuppyListResponseDTO(1L, "puppyName1", "puppyPicture1", "simpleDescription1", imageStorageServerName),
-                new PuppyListResponseDTO(2L, "puppyName2", "puppyPicture2", "simpleDescription2", imageStorageServerName),
-                new PuppyListResponseDTO(3L, "puppyName3", "puppyPicture3", "simpleDescription3", imageStorageServerName),
-                new PuppyListResponseDTO(4L, "puppyName4", "puppyPicture4", "simpleDescription4", imageStorageServerName),
-                new PuppyListResponseDTO(5L, "puppyName5", "puppyPicture5", "simpleDescription5", imageStorageServerName),
-                new PuppyListResponseDTO(6L, "puppyName6", "puppyPicture6", "simpleDescription6", imageStorageServerName)
+        List<PuppyListHttpResponse> puppyList = List.of(
+                new PuppyListHttpResponse(1L, "puppyName1", "puppyPicture1", "simpleDescription1", imageStorageServerName),
+                new PuppyListHttpResponse(2L, "puppyName2", "puppyPicture2", "simpleDescription2", imageStorageServerName),
+                new PuppyListHttpResponse(3L, "puppyName3", "puppyPicture3", "simpleDescription3", imageStorageServerName),
+                new PuppyListHttpResponse(4L, "puppyName4", "puppyPicture4", "simpleDescription4", imageStorageServerName),
+                new PuppyListHttpResponse(5L, "puppyName5", "puppyPicture5", "simpleDescription5", imageStorageServerName),
+                new PuppyListHttpResponse(6L, "puppyName6", "puppyPicture6", "simpleDescription6", imageStorageServerName)
         );
 
         given(puppyListService.getPuppyList(any())).willReturn(puppyList);
@@ -88,9 +88,9 @@ class PuppyControllerTest {
     @DisplayName("강아지의 세부 정보를 조회한다")
     void getPuppyDetail() throws Exception {
         //given
-        PuppyDetailResponseDTO puppyDetailResponseDTO = new PuppyDetailResponseDTO(1L, "puppyName1", "puppyPicture1", "simpleDescription1", "detailDescription1", imageStorageServerName);
+        PuppyDetailHttpResponse puppyDetailHttpResponse = new PuppyDetailHttpResponse(1L, "puppyName1", "puppyPicture1", "simpleDescription1", "detailDescription1", imageStorageServerName);
 
-        given(puppyDetailServiceService.getPuppyDetail(any())).willReturn(puppyDetailResponseDTO);
+        given(puppyDetailServiceService.getPuppyDetail(any())).willReturn(puppyDetailHttpResponse);
 
         //when
         mockMvc.perform(get("/api/v1/puppies/{puppyId}", 1L)

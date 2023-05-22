@@ -1,7 +1,7 @@
 package com.cooper.backend.puppies.repository;
 
-import com.cooper.backend.puppies.dto.PuppyDetailResponseDTO;
-import com.cooper.backend.puppies.dto.PuppyListResponseDTO;
+import com.cooper.backend.puppies.dto.PuppyDetailHttpResponse;
+import com.cooper.backend.puppies.dto.PuppyListHttpResponse;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -9,8 +9,8 @@ import java.util.Optional;
 
 public interface PuppyRepository {
 
-    List<PuppyListResponseDTO> findPuppyListDesc(final Pageable pageable);
+    List<PuppyListHttpResponse> findPuppyListDesc(final Pageable pageable);
 
-    Optional<PuppyDetailResponseDTO> findPuppyDetailByPuppyId(final Long puppyId);
+    Optional<PuppyDetailHttpResponse> findPuppyDetailByPuppyId(final Long puppyId);
 
 }

@@ -3,9 +3,8 @@ package com.cooper.backend.puppies.repository;
 
 import com.cooper.backend.common.config.QueryDslConfig;
 import com.cooper.backend.puppies.domain.Puppy;
-import com.cooper.backend.puppies.dto.PuppyDetailResponseDTO;
-import com.cooper.backend.puppies.dto.PuppyListResponseDTO;
-import com.cooper.backend.puppies.repository.PuppyRepository;
+import com.cooper.backend.puppies.dto.PuppyDetailHttpResponse;
+import com.cooper.backend.puppies.dto.PuppyListHttpResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +63,7 @@ class PuppyRepositoryTest {
         testEntityManager.persist(puppy7);
 
         //when
-        List<PuppyListResponseDTO> puppies = puppyRepository.findPuppyListDesc(PageRequest.of(0, 6));
+        List<PuppyListHttpResponse> puppies = puppyRepository.findPuppyListDesc(PageRequest.of(0, 6));
 
         //then
         assertAll(
@@ -82,7 +81,7 @@ class PuppyRepositoryTest {
         testEntityManager.persist(puppy1);
 
         //when
-        Optional<PuppyDetailResponseDTO> puppyDetailResponseDTO = puppyRepository.findPuppyDetailByPuppyId(1L);
+        Optional<PuppyDetailHttpResponse> puppyDetailResponseDTO = puppyRepository.findPuppyDetailByPuppyId(1L);
 
         //then
         assertAll(

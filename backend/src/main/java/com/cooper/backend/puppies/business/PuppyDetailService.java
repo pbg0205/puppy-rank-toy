@@ -1,10 +1,10 @@
 package com.cooper.backend.puppies.business;
 
-import com.cooper.backend.puppies.dto.PuppyDetailResponseDTO;
+import com.cooper.backend.puppies.dto.PuppyDetailHttpResponse;
 
 @FunctionalInterface
 public interface PuppyDetailService {
 
-    PuppyDetailResponseDTO getPuppyDetail(final Long puppyId);
+    PuppyDetailHttpResponse getPuppyDetail(final Long puppyId);
 
 }

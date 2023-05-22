@@ -1,7 +1,7 @@
 package com.cooper.backend.puppies.business;
 
+import com.cooper.backend.puppies.dto.PuppyDetailHttpResponse;
 import com.cooper.backend.puppies.repository.PuppyRepository;
-import com.cooper.backend.puppies.dto.PuppyDetailResponseDTO;
 import com.cooper.backend.puppies.exception.PuppyDetailNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
@@ -17,7 +17,7 @@ public class DefaultPuppyDetailService implements PuppyDetailService {
 
     @Override
     @Cacheable
-    public PuppyDetailResponseDTO getPuppyDetail(final Long puppyId) {
+    public PuppyDetailHttpResponse getPuppyDetail(final Long puppyId) {
         return puppyRepository.findPuppyDetailByPuppyId(puppyId)
                 .orElseThrow(() -> new PuppyDetailNotFoundException(PUPPY_NOT_FOUND_BY_ID_MESSAGE));
     }
